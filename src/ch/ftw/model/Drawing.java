@@ -4,8 +4,16 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A drawing represents a drawing which is drawn on the drawingboard
+ * @author vmadmin
+ *
+ */
 public class Drawing {
 	
+	/**
+	 * all forms in the drawing
+	 */
 	private List<Form> forms = new ArrayList<>();
 	
 	public Drawing(Form... forms){
@@ -18,6 +26,10 @@ public class Drawing {
 		this.forms = forms;
 	}
 
+	/**
+	 * Function to draw all figures 
+	 * @param g
+	 */
 	public void drawFigures(Graphics g) {
 		for(Form f : forms){
 			f.draw(g);
