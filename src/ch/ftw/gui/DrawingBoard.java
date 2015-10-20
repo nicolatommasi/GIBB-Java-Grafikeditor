@@ -1,14 +1,8 @@
 package ch.ftw.gui;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
 import javax.swing.JFrame;
 
 import ch.ftw.model.Drawing;
-import ch.ftw.model.Line;
-import ch.ftw.model.Oval;
-import ch.ftw.model.Rectangular;
 
 /**
  * Die Klasse Zeichenbrett ermöglicht die Darstellung von Zeichnungen. Sie
@@ -18,7 +12,7 @@ import ch.ftw.model.Rectangular;
  * @author Andres Scheidegger
  */
 @SuppressWarnings("serial")
-public class DrawingBoard extends JFrame implements KeyListener {
+public class DrawingBoard extends JFrame {
 
 	/**
 	 * Das Papier, auf welchem gezeichnet wird.
@@ -37,7 +31,7 @@ public class DrawingBoard extends JFrame implements KeyListener {
 		setLocation(200, 200);
 		setContentPane(paper);
 		setVisible(true);
-		addKeyListener(this);
+		addKeyListener(paper);
 	}
 
 	/**
@@ -54,27 +48,4 @@ public class DrawingBoard extends JFrame implements KeyListener {
 		repaint();
 	}
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		switch (e.getKeyChar()) {
-		case 'r':
-			paper.setCurrentFormToDraw(new Rectangular());
-			break;
-		case 'l':
-			paper.setCurrentFormToDraw(new Line());
-			break;
-
-		case 'c':
-			paper.setCurrentFormToDraw(new Oval());
-			break;
-		}
-	}
 }

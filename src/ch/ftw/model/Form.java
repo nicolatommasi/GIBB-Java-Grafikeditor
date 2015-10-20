@@ -47,8 +47,6 @@ public abstract class Form {
 	 */
 	protected abstract void draw(Graphics g);
 	
-	public abstract Form getFormFromMouse(int x, int y, int width, int height);
-	
 	/**
 	 * Get the x position of the form
 	 * @return x position as an int

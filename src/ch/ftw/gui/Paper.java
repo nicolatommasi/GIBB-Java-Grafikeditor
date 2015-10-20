@@ -1,14 +1,21 @@
 package ch.ftw.gui;
 
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import ch.ftw.model.Drawing;
 import ch.ftw.model.Form;
+import ch.ftw.model.Line;
+import ch.ftw.model.Oval;
 import ch.ftw.model.Rectangular;
+import ch.ftw.model.Text;
 
 /**
  * Papier ist eine von JPanel abgeleitete Swing-Komponente. - Sie dient als
@@ -20,7 +27,7 @@ import ch.ftw.model.Rectangular;
  * @author Andres Scheidegger
  */
 @SuppressWarnings("serial")
-public class Paper extends JPanel implements MouseListener {
+public class Paper extends JPanel implements MouseListener, KeyListener {
 
 	/**
 	 * Die Zeichnung.
@@ -30,9 +37,8 @@ public class Paper extends JPanel implements MouseListener {
 	 * Position der Maus beim Drücken der Maustaste. Wird von der Methode
 	 * mousePressed() gesetzt und von der Methode mouseReleased() gelesen.
 	 */
-	private int x, y;
-
-	private Form currentFormToDraw = new Rectangular();
+	private Point start;
+	private char mode = 'r';
 
 	/**
 	 * Die Methode paintComponent zeichnet die Zeichnung auf das Papier. Sie
@@ -73,9 +79,7 @@ public class Paper extends JPanel implements MouseListener {
 	 *            Maus-Ereignis für das Drücken der Maustaste
 	 */
 	public void mousePressed(MouseEvent e) {
-		// Speichern den Ort des Ereignisses.
-		x = e.getX();
-		y = e.getY();
+		start = e.getPoint();
 	}
 
 	/**
@@ -85,13 +89,36 @@ public class Paper extends JPanel implements MouseListener {
 	 *            Maus-Ereignis für das Loslassen der Maustaste
 	 */
 	public void mouseReleased(MouseEvent e) {
-		// Bestimmen Breite und Hoehe des neuen Rechtecks
-		int width = e.getX() - x;
-		int height = e.getY() - y;
+		Point end = e.getPoint();
 		// Erzeugen ein neues Rechteckobjekt und speichern dieses
 		// in der Zeichnung. Anschliessend alles neu zeichnen.
-		drawing.addForm(currentFormToDraw.getFormFromMouse(x, y, width, height));
+		Form f = null;
+		switch (mode) {
+		case 'r':
+			f = new Rectangular(start, end);
+			break;
+		case 'l':
+			f = new Line(start, end);
+			break;
+		case 'c':
+			f = new Oval(start, end);
+			break;
+		case 'k':
+			f = new Oval(start, end);
+			break;
+		case 't':
+			String input = JOptionPane.showInputDialog(this, "Text bitte");
+			f = new Text(start, input);
+			break;
+		}
+		if(f != null)
+			drawing.addForm(f);
 		repaint();
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		mode = e.getKeyChar();	
 	}
 
 	// Weitere Ereignisse werden nicht bearbeitet, die Methoden müssen
@@ -105,8 +132,11 @@ public class Paper extends JPanel implements MouseListener {
 	public void mouseExited(MouseEvent e) {
 	}
 
-	public void setCurrentFormToDraw(Form currentFormToDraw) {
-		this.currentFormToDraw = currentFormToDraw;
+	@Override
+	public void keyPressed(KeyEvent e) {
 	}
 
+	@Override
+	public void keyReleased(KeyEvent e) {
+	}
 }

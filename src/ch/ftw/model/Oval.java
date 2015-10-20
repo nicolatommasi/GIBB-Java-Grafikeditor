@@ -1,6 +1,7 @@
 package ch.ftw.model;
 
 import java.awt.Graphics;
+import java.awt.Point;
 
 public class Oval extends Form {
 	private int width, height;
@@ -10,21 +11,16 @@ public class Oval extends Form {
 		this.width = 0;
 		this.height = 0;
 	}
-
-	public Oval(int x, int y, int width, int height) {
-		super(x, y);
-		this.width = width;
-		this.height = height;
+	
+	public Oval(Point start, Point end){
+		super(start.x, start.y);
+		this.width = end.x - start.x;
+		this.height = end.y - start.y;
 	}
 	
 	@Override
 	public void draw(Graphics g) {
 		g.drawOval(getX(), getY(), width, height);
-	}
-	
-	@Override
-	public Form getFormFromMouse(int x, int y, int width, int height) {
-		return new Oval(x, y, width, height);
 	}
 
 	public int getWidth() {

@@ -1,16 +1,17 @@
 package ch.ftw.model;
 
 import java.awt.Graphics;
+import java.awt.Point;
 
 public class Line extends Form {
 
 	private int toX;
 	private int toY;
-
-	public Line(int x, int y, int toX, int toY) {
-		super(x, y);
-		this.toX = toX;
-		this.toY = toY;
+	
+	public Line(Point start, Point end){
+		super(start.x, start.y);
+		this.toX = end.x;
+		this.toY = end.y;
 	}
 	
 	public Line(){
@@ -24,13 +25,6 @@ public class Line extends Form {
 		g.drawLine(getX(), getY(), toX, toY);
 	}
 	
-	@Override
-	public Form getFormFromMouse(int x, int y, int width, int height) {
-		int endX = x + width;
-		int endY = y + height;
-		return new Line(x, y, endX, endY);
-	}
-
 	public int getToX() {
 		return toX;
 	}
@@ -46,8 +40,5 @@ public class Line extends Form {
 	public void setToY(int toY) {
 		this.toY = toY;
 	}
-
-	
-
 
 }
